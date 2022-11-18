@@ -1,0 +1,19 @@
+input:invalid {
+    border-width: 5px;
+    border-color: #ffdddd;
+  }
+  
+input:valid {
+    border-width: 5px;
+    border-color: #ddffdd;
+  }
+
+input.invalid {
+    border-width: 5px;
+    border-color: #ffdddd;
+  }
+  
+input.valid {
+    border-width: 5px;
+    border-color: #ddffdd;
+  }
