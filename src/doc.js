@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 $(() => {
-
+  const token = localStorage.getItem("token");
 
   $(document).on('submit', () => {
     const user = {
@@ -16,8 +16,5 @@ $(() => {
     }
     createUser(user);
   })
-
-
-  
 })
 openConnection();

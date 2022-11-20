@@ -26,7 +26,12 @@ const login = (user) => {
   });
 
   fetchPromise.then((response) => {
-    console.log(response);
+    if (response.ok) {
+      response.text().then((text) => {
+        localStorage.setItem("token", text);
+        window.location.replace("./doc.html");
+      });
+    }
   });
 }
 export{createUser, login}
