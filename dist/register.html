@@ -11,17 +11,25 @@
     <br>
     <div class="row">
       <div class="col-3">
-        <script src="login.js"></script>
-        <h1>login Page</h1>
-        <a href="register.html" class="btn btn-primary">Register</a>
+        <script src="register.js"></script>
+        <h1>Register Page</h1>
+        <a href="index.html" class="btn btn-primary">back to login</a>
         <form id="signup">
           <div class="mb-3">
             <label for="emailInput" class="form-label">Email address</label>
             <input type="email" class="form-control" id="emailInput" required>
           </div>
           <div class="mb-3">
+            <label for="userInput" class="form-label">Name</label>
+            <input type="text" class="form-control" id="userInput" required>
+          </div>
+          <div class="mb-3">
             <label for="passwordInput" class="form-label">Password</label>
             <input type="password" class="form-control" id="passwordInput" required>
+          </div>
+          <div class="mb-3">
+            <label for="repeatPasswordInput" class="form-label">Repeat Password</label>
+            <input type="password" class="form-control" id="repeatPasswordInput" required>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>

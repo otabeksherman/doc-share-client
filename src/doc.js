@@ -1,21 +1,23 @@
 import $ from 'jquery'
-import { login } from './rest';
+import { createUser } from './rest';
+import { openConnection } from './sockets';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./styles.css"
 
 
 $(() => {
 
-  $(document).on('submit', (e) => {
-    e.preventDefault();
+
+  $(document).on('submit', () => {
     const user = {
       email: $('#emailInput').val(),
+      name: $('#userInput').val(),
       password: $('#passwordInput').val()
     }
-    login(user);
+    createUser(user);
   })
 
 
   
 })
+openConnection();
