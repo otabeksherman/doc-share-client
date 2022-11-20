@@ -7,7 +7,8 @@ import "./styles.css"
 
 $(() => {
 
-  $(document).on('submit', () => {
+  $(document).on('submit', (e) => {
+    e.preventDefault();
     const user = {
       email: $('#emailInput').val(),
       password: $('#passwordInput').val()

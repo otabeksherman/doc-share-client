@@ -17,7 +17,7 @@ const createUser = (user) => {
   }
 
 const login = (user) => {
-  const fetchPromise = fetch(serverAddress + "/user/login", {
+  const fetchPromise = fetch(serverAddress + "/api/v1/login", {
     method: 'POST',
     body: JSON.stringify({ email: user.email, password: user.password }),
     headers: {
