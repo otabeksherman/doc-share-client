@@ -11,7 +11,7 @@ const createUser = (user) => {
 
     fetchPromise.then((response) => {
       if (response.ok) {
-        console.log(response);
+        window.location.replace("./index.html");
       }
     });
   }
