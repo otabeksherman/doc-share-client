@@ -28,8 +28,8 @@ const login = (user) => {
   fetchPromise.then((response) => {
     if (response.ok) {
       response.text().then((text) => {
-        localStorage.setItem("token", text);
-        window.location.replace("./doc.html");
+        sessionStorage.setItem("token", text);
+        window.location.replace("./home.html");
       });
     }
   });
