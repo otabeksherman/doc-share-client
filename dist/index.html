@@ -16,11 +16,11 @@
         <form id="signup">
           <div class="mb-3">
             <label for="emailInput" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="emailInput" required>
+            <input type="email" class="form-control" id="emailInput" required pattern="^(?=.{1,64}@)[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$">
           </div>
           <div class="mb-3">
             <label for="passwordInput" class="form-label">Password</label>
-            <input type="password" class="form-control" id="passwordInput" required>
+            <input type="password" class="form-control" id="passwordInput" required  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
