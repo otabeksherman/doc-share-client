@@ -15,7 +15,8 @@
     "style-loader": "^3.3.1",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.11.0"
+    "webpack-dev-server": "^4.11.0",
+    "html-webpack-plugin": "^5.3.1"
   },
   "dependencies": {
     "@stomp/stompjs": "^6.1.2",
@@ -23,6 +24,7 @@
     "jquery": "^3.6.1",
     "sockjs": "^0.3.24",
     "sockjs-client": "^1.6.1",
-    "websocket": "^1.0.34"
+    "websocket": "^1.0.34",
+    "@popperjs/core": "2.11.6"
   }
 }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Getting Started</title>
+</head>
+
+<body>
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="col-5">
+        <script src="register.js"></script>
+        <h1>Register Page</h1>
+        <a href="index.html" class="btn btn-primary">back to login</a>
+        <form id="signup">
+          <div class="mb-3">
+            <label for="emailInput" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="emailInput" required pattern="^(?=.{1,64}@)[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$">
+          </div>
+          <div class="mb-3">
+            <label for="userInput" class="form-label">Name</label>
+            <input type="text" class="form-control" id="userInput" required>
+          </div>
+          <div class="mb-3">
+            <label for="passwordInput" class="form-label">Password - must have a letter and a number</label>
+            <input type="password" class="form-control" id="passwordInput" required pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
+          </div>
+          <div class="mb-3">
+            <label for="repeatPasswordInput" class="form-label">Repeat Password</label>
+            <input type="password" class="form-control" id="repeatPasswordInput" required pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
