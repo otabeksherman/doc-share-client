@@ -1,20 +1,14 @@
 import $ from 'jquery'
-import { createUser } from './rest';
 import { openConnection } from './sockets';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 $(() => {
-  const token = localStorage.getItem("token");
-
-  $(document).on('submit', () => {
-    const user = {
-      email: $('#emailInput').val(),
-      name: $('#userInput').val(),
-      password: $('#passwordInput').val()
-    }
-    createUser(user);
-  })
+  const token = sessionStorage.getItem("token");
+  const urlParams = new URLSearchParams(window.location.search);
+  
+  const documentId = urlParams.get('id');
 })
+
 openConnection();

@@ -4,8 +4,9 @@ HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
     entry: {
       login: './src/index.js',
-      doc: './src/doc.js',
-      register: './src/register.js'
+      home: './src/home.js',
+      register: './src/register.js',
+      doc: './src/doc.js'
     },
     output: {
         filename: '[name].js',
@@ -14,21 +15,27 @@ module.exports = {
     plugins: [
       new HtmlWebpackPlugin({
         inject: true,
-        template: './dist/doc.html',
-        filename: 'doc.html',
-        chunks: ['doc'],
+        template: './dist/home.html',
+        filename: 'home.html',
+        chunks: ['home'],
       }),
       new HtmlWebpackPlugin({
         inject: true,
         template: './dist/index.html',
         filename: 'index.html',
-        chunks: ['login-page'],
+        chunks: ['login'],
       }),
       new HtmlWebpackPlugin({
         inject: true,
         template: './dist/register.html',
         filename: 'register.html',
-        chunks: ['register-page'],
+        chunks: ['register'],
+      }),
+      new HtmlWebpackPlugin({
+        inject: true,
+        template: './dist/doc.html',
+        filename: 'doc.html',
+        chunks: ['doc'],
       })
     ],
     mode: "development",
