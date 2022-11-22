@@ -1,0 +1,39 @@
+#nameErr {
+    display: inline-block;
+}
+
+#activationMailSent {
+    text-align: center;
+    margin: auto;
+    width: 50%;
+    border: 3px solid grey;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+#activationMailSent > img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+input:invalid {
+    border-width: 5px;
+    border-color: #ffdddd;
+}
+
+input:valid {
+    border-width: 5px;
+    border-color: #ddffdd;
+}
+
+input.invalid {
+    border-width: 5px;
+    border-color: #ffdddd;
+}
+
+input.valid {
+    border-width: 5px;
+    border-color: #ddffdd;
+}
+

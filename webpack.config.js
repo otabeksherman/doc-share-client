@@ -5,7 +5,7 @@ module.exports = {
     entry: {
       login: './src/index.js',
       home: './src/home.js',
-      register: './src/register.js',
+      registration: './src/registration.js',
       doc: './src/doc.js'
     },
     output: {
@@ -27,9 +27,9 @@ module.exports = {
       }),
       new HtmlWebpackPlugin({
         inject: true,
-        template: './dist/register.html',
-        filename: 'register.html',
-        chunks: ['register'],
+        template: './dist/registration.html',
+        filename: 'registration.html',
+        chunks: ['registration'],
       }),
       new HtmlWebpackPlugin({
         inject: true,
