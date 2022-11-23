@@ -6,41 +6,65 @@ import {getDocuments, createDocument, createFolder} from './document-rest';
 
 $(() => {
   const token = sessionStorage.getItem("token");
+  const folders = [];
+  sessionStorage.setItem('directories', JSON.stringify(folders));
   reloadFolder();
 
   $('#createDocument').on('click', () => {
-    createDocument(token, $('#documentName').val());
-  });
-
-  $('#createFolder').on('click', () => {
-    const res = createFolder(token, $('#documentName').val(), sessionStorage.getItem('currentDirectory'));
+    const res = createDocument(token, $('#documentName').val(), JSON.parse(sessionStorage.getItem('directories')).at(-1));
 
     res.then((response) => {
       if (response.ok) {
-        window.location.reload();
+          reloadFolder();
       }
     })
+  });
+
+  $('#createFolder').on('click', () => {
+    const folder = JSON.parse(sessionStorage.getItem('directories')).at(-1);
+    const res = createFolder(token, $('#documentName').val(), folder);
+
+    res.then((response) => {
+      if (response.ok) {
+        reloadFolder();
+      }
+    })
+  })
+
+  $('#backFolder').on('click', () => {
+    const folder = JSON.parse(sessionStorage.getItem('directories'));
+    folder.pop();
+    sessionStorage.setItem('directories', JSON.stringify(folder));
+    
+    reloadFolder();
   })
 })
 
 const reloadFolder = () => {
   const token = sessionStorage.getItem("token");
-  const res = getDocuments(token, sessionStorage.getItem('currentDirectory'));
+  const folder = JSON.parse(sessionStorage.getItem('directories'));
+  const res = getDocuments(token, folder.at(-1));
 
   res.then((response) => {
     if (response.ok) {
       response.text().then((text) => {
           const folderResponse = JSON.parse(text);
-          console.log(folderResponse);
-          sessionStorage.setItem('previousDircetory', folderResponse['folder']['parentId'])
-          sessionStorage.setItem('currentDirectory', folderResponse['folder']['id']);
           $('#documentList').empty();
-          folderResponse['subFolders'].forEach((element) => {
-            $('#documentList')[0].appendChild(createLi(element, true));
-          });
-          folderResponse['folder']['innerDocuments'].forEach(element => {
+          const folders = JSON.parse(sessionStorage.getItem('directories'));
+          if (folders.length == 0) {
+            folders.push(folderResponse['folder']['id']);
+            sessionStorage.setItem('directories', JSON.stringify(folders));
+          }
+          if (folderResponse['subFolders'] != undefined) {
+            folderResponse['subFolders'].forEach((element) => {
+              $('#documentList')[0].appendChild(createLi(element, true));
+            });
+          }
+          if (folderResponse['folder']['innerDocuments'] != undefined) {
+            folderResponse['folder']['innerDocuments'].forEach(element => {
               $('#documentList')[0].appendChild(createLi(element, false));
           });
+          }
       })
     }
   });
@@ -79,7 +103,10 @@ const createLiFolder = (element) => {
 
   const button = template.querySelectorAll("button");
   button[0].addEventListener("click", () => {
-    sessionStorage.setItem('currentDirectory', element['id']);
+    const folders = JSON.parse(sessionStorage.getItem('directories'));
+    folders.push(element['id']);
+    sessionStorage.setItem('directories', JSON.stringify(folders));
+    console.log(folders);
     reloadFolder();
   })
   return template;

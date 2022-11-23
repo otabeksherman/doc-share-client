@@ -1,19 +1,15 @@
 import $ from 'jquery'
 import { serverAddress } from "./constants"
 
-const createDocument = (token, name) => {
-    const fetchPromise = fetch(serverAddress + "/api/v1/doc/create?title=" + name + "&token=" + token + "&folderId=" + sessionStorage.getItem("currentDirectory"), {
+const createDocument = (token, name, dir) => {
+    const fetchPromise = fetch(serverAddress + "/api/v1/doc/create?title=" + name + "&token=" + token + "&folderId=" + dir, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         }
       });
 
-      fetchPromise.then((response) => {
-        if (response.ok) {
-            window.location.reload();
-        }
-      })
+      return fetchPromise;
 }
 
 const getDocuments = (token, currentDirectory) => {
