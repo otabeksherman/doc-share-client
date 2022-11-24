@@ -46,4 +46,12 @@ const createFolder = (token, name, id) => {
   return fetchPromise;
 }
 
-export{getDocuments, createDocument, getDocument, createFolder}
+const removeFolder = (token, folderId) => {
+  const fetchPromise = fetch(serverAddress + "/api/v1/folder/" + folderId + "?token=" + token, {
+    method : 'DELETE'
+  });
+
+  return fetchPromise;
+}
+
+export{getDocuments, createDocument, getDocument, createFolder, removeFolder}

@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {getDocuments, createDocument, createFolder} from './document-rest';
+import {getDocuments, createDocument, createFolder, removeFolder} from './document-rest';
 
 
 $(() => {
@@ -106,8 +106,16 @@ const createLiFolder = (element) => {
     const folders = JSON.parse(sessionStorage.getItem('directories'));
     folders.push(element['id']);
     sessionStorage.setItem('directories', JSON.stringify(folders));
-    console.log(folders);
     reloadFolder();
+  });
+
+  const removeButton = template.querySelector('#remove');
+  removeButton.addEventListener("click", () => {
+    const res = removeFolder(sessionStorage.getItem('token'), element['id']);
+
+    res.then(() => {
+      reloadFolder();
+    });
   })
   return template;
 }
