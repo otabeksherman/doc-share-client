@@ -6,7 +6,8 @@ module.exports = {
       login: './src/index.js',
       home: './src/home.js',
       registration: './src/registration.js',
-      doc: './src/doc.js'
+      doc: './src/doc.js',
+      activation: './src/activation.js'
     },
     output: {
         filename: '[name].js',
@@ -36,13 +37,19 @@ module.exports = {
         template: './dist/doc.html',
         filename: 'doc.html',
         chunks: ['doc'],
+      }),
+      new HtmlWebpackPlugin({
+          inject: true,
+          template: './dist/activation.html',
+          filename: 'activation.html',
+          chunks: ['activation'],
       })
     ],
     mode: "development",
     module: {
         rules: [
           {
-            test: /\.css$/,
+            test: /\.s?css$/,
             use: ['style-loader', 'css-loader']
           }
         ]
