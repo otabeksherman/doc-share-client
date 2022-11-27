@@ -21,6 +21,11 @@ const body = $(() => {
           return doc['body'];
       })
     }
+  });
+
+  $(".popup").on('click', function() {
+      myFunction();
+    });
   })
 
   $('#export_btn').on('click', () => {
@@ -32,6 +37,12 @@ const body = $(() => {
   })
 })
 openConnectionViewers();
+
+function myFunction() {
+    let popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+}
+
 openConnection();
 
 export {body}
