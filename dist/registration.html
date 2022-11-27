@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration</title>
+</head>
+
+<body>
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="col-3">
+        <h1>Register Page</h1>
+        <a href="index.html" class="btn btn-primary">Back to main page</a>
+        <form id="signup">
+          <div class="mb-3">
+            <label for="emailInput" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="emailInput"
+                   required pattern="^(?=.{1,64}@)[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$">
+            <div class="error" id="nameErr"></div>
+          </div>
+          <div class="mb-3">
+            <label for="userInput" class="form-label">Name</label>
+            <input type="text" class="form-control" id="userInput" required>
+          </div>
+          <div class="mb-3">
+            <label for="passwordInput" class="form-label">Password - must have a letter and a number</label>
+            <input type="password" class="form-control" id="passwordInput" required pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                   title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+          </div>
+          <div class="mb-3">
+            <label for="repeatPasswordInput" class="form-label">Repeat Password</label>
+            <input type="password" class="form-control" id="repeatPasswordInput" required pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:none" id="activationMailSent">
+    <h2>Activation mail sent</h2>
+    <img src="images/mail_sent.jpeg" alt="Email sent">
+    <p>We've just sent you an account activation link.
+    Please check your inbox for further instructions.</p>
+    <a href="index.html" class="btn btn-primary">Back to main page</a>
+  </div>
+</body>
+
+</html>

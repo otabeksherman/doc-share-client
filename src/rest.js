@@ -1,20 +1,15 @@
 import { serverAddress } from "./constants"
+import $ from "jquery";
 
 const createUser = (user) => {
-    const fetchPromise = fetch(serverAddress + "/user", {
+    return fetch(serverAddress + "/user", {
       method: 'POST',
       body: JSON.stringify({ name: user.name, email: user.email, password: user.password }),
       headers: {
         'Content-Type': 'application/json'
       }
     });
-
-    fetchPromise.then((response) => {
-      if (response.ok) {
-        window.location.replace("./index.html");
-      }
-    });
-  }
+}
 
 const login = (user) => {
   const fetchPromise = fetch(serverAddress + "/api/v1/login", {
@@ -34,4 +29,17 @@ const login = (user) => {
     }
   });
 }
-export{createUser, login}
+
+const activate = (activation) => {
+  return fetch(serverAddress + "/user/confirmRegistration", {
+    method: 'PATCH',
+    body: JSON.stringify({email: activation.email, token: activation.token}),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then((response) => {
+    return response;
+  });
+}
+
+export{createUser, login, activate}

@@ -5,8 +5,9 @@ module.exports = {
     entry: {
       login: './src/index.js',
       home: './src/home.js',
-      register: './src/register.js',
-      doc: './src/doc.js'
+      registration: './src/registration.js',
+      doc: './src/doc.js',
+      activation: './src/activation.js'
     },
     output: {
         filename: '[name].js',
@@ -27,22 +28,28 @@ module.exports = {
       }),
       new HtmlWebpackPlugin({
         inject: true,
-        template: './dist/register.html',
-        filename: 'register.html',
-        chunks: ['register'],
+        template: './dist/registration.html',
+        filename: 'registration.html',
+        chunks: ['registration'],
       }),
       new HtmlWebpackPlugin({
         inject: true,
         template: './dist/doc.html',
         filename: 'doc.html',
         chunks: ['doc'],
+      }),
+      new HtmlWebpackPlugin({
+          inject: true,
+          template: './dist/activation.html',
+          filename: 'activation.html',
+          chunks: ['activation'],
       })
     ],
     mode: "development",
     module: {
         rules: [
           {
-            test: /\.css$/,
+            test: /\.s?css$/,
             use: ['style-loader', 'css-loader']
           }
         ]

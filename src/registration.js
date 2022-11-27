@@ -2,11 +2,10 @@ import $ from 'jquery'
 import { createUser } from './rest';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./styles.css"
-
+import "../styles/registration.css"
 
 $(() => {
-
+  $("#activationMailSent").hide()
   $("#passwordInput").on("focusout", function () {
     if ($(this).val() != $("#repeatPasswordInput").val()) {
       $("#repeatPasswordInput")[0].setCustomValidity("password must match");
@@ -23,17 +22,25 @@ $(() => {
     }
   });
 
-  $(document).on('submit', (e) => {
+  $(document).on('submit', async (e) => {
     e.preventDefault();
     if (!e.checkValidity) {
-        e.stopPropagation();
+      e.stopPropagation();
     }
+
     const user = {
       email: $('#emailInput').val(),
       name: $('#userInput').val(),
       password: $('#passwordInput').val()
     }
-    createUser(user);
+    let response = await createUser(user);
+    if (response.ok) {
+      showActivationEmailSent();
+    }
   });
-  
 })
+
+function showActivationEmailSent() {
+  $(".container").hide();
+  $("#activationMailSent").show();
+}
