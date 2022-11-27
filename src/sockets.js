@@ -17,7 +17,7 @@ const onMessageReceived = (payload) => {
 }
 
 const onConnected = () => {
-    stompClient.subscribe('/topic/updates', onMessageReceived);
+    stompClient.subscribe('/topic/updates/', onMessageReceived);
     stompClient.send("/app/hello", [],
         JSON.stringify({ name: "Default user" })
     )
@@ -29,15 +29,17 @@ const openConnection = () => {
     stompClient.connect({}, onConnected);
 }
 
-const addUpdate = (user, content, position) => {
-    sendUpate(user, "APPEND", content, position)
+const addUpdate = (user, content, position,docId) => {
+    sendUpate(user, "APPEND", content, position, docId)
 }
 
-const sendUpate = (user, type, content, position) => {
-    stompClient.send("/app/update", [], JSON.stringify({
+const sendUpate = (user, type, content, position,docId) => {
+    console.log("this is user:: "+user);
+    stompClient.send("/app/update/", [], JSON.stringify({
         user: user,
-        type: type,
         content: content,
+        documentId: docId,
+        type: type,
         position: position
     }))
 }

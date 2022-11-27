@@ -1,6 +1,10 @@
 import $ from 'jquery'
 import { addUpdate } from './sockets';
-
+import { body } from './doc'
+const urlParams = new URLSearchParams(window.location.search);
+  
+const documentId = urlParams.get('id');
+const token = sessionStorage.getItem("token");
 
 $(() => {
 
@@ -16,18 +20,20 @@ $(() => {
     });
     input.on("input", (event) => {
         let end = input.prop("selectionEnd");
-        addUpdate($('#userInput').val(), event.originalEvent.data, end-1)
+        console.log(input.val());
+        addUpdate(token,input.val(), end-1,documentId);
     })
 })
 
 const update = (updateData) => {
     let textArea = $('#main-doc');
-    let user = $('#userInput').val();
     let start = textArea.prop("selectionStart");
-    if (user != updateData.user) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const documentId = urlParams.get('id');
+    if (sessionStorage.getItem('token') != updateData.user && updateData.documentId == documentId) {
         let text = textArea.val();
-        text = text.substring(0, updateData.position) + updateData.content + text.substring(updateData.position, text.length);
-        textArea.val(text);
+        //text = text.substring(0, updateData.position) + updateData.content + text.substring(updateData.position, text.length);
+        textArea.val(updateData.content);
         if (updateData.position < start) {
             start++;
             textArea[0].setSelectionRange(start, start);
