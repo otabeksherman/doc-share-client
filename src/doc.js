@@ -1,8 +1,8 @@
 import $ from 'jquery'
-import { openConnection } from './sockets';
+import { openConnection , openConnectionViewers } from './sockets';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {getDocument} from './document-rest';
+import {getDocument , getDocumentViewers} from './document-rest';
 
 
 const body = $(() => {
@@ -23,7 +23,7 @@ const body = $(() => {
     }
   })
 })
-
+openConnectionViewers();
 openConnection();
 
 export {body}

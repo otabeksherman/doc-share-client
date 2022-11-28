@@ -40,5 +40,21 @@ const update = (updateData) => {
         }
     }
 }
+const addViewer = (listViewer) => {
+    let viewers = $('#viewers');
+    const urlParams = new URLSearchParams(window.location.search);
+    const documentId = urlParams.get('id');
+    console.log("vieweeeeee");
+    console.log(documentId);
+    //if (viewer.docId == documentId) {
+    let text = "";
+    const docViewers = listViewer[documentId];
+    for(let x in docViewers){
+        console.log(docViewers[x]);
+        text+=docViewers[x];
+        text+="\n";        
+    }
+    viewers.val(text);
 
-export { update }
+}
+export { update , addViewer}
