@@ -21,12 +21,6 @@ $(() => {
   });
   $('#logout').on('click', () => {
     const res = logout(token);
-
-    /*res.then((response) => {
-      if (response.ok) {
-          reloadFolder();
-      }
-    })*/
   });
   $('#createFolder').on('click', () => {
     const folder = JSON.parse(sessionStorage.getItem('directories')).at(-1);
