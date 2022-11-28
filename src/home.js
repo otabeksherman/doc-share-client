@@ -1,8 +1,8 @@
 import $ from 'jquery'
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {logout} from './rest'
 import {getDocuments, createDocument, createFolder, importDocument} from './document-rest';
-
 
 $(() => {
   const token = sessionStorage.getItem("token");
@@ -19,7 +19,9 @@ $(() => {
       }
     })
   });
-
+  $('#logout').on('click', () => {
+    const res = logout(token);
+  });
   $('#createFolder').on('click', () => {
     const folder = JSON.parse(sessionStorage.getItem('directories')).at(-1);
     const res = createFolder(token, $('#documentName').val(), folder);

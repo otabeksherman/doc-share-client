@@ -29,6 +29,17 @@ const login = (user) => {
     }
   });
 }
+const logout = (token) => {
+  const fetchPromise = fetch(serverAddress + "/user/logout?token=" + token , {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    console.log("in logout function");
+
+    return fetchPromise;
+}
 
 const activate = (activation) => {
   return fetch(serverAddress + "/user/confirmRegistration", {
@@ -42,4 +53,4 @@ const activate = (activation) => {
   });
 }
 
-export{createUser, login, activate}
+export{createUser, login, activate,logout}
