@@ -1,8 +1,8 @@
 import $ from 'jquery'
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {getDocuments, createDocument, createFolder} from './document-rest';
 import {logout} from './rest'
+import {getDocuments, createDocument, createFolder, importDocument} from './document-rest';
 
 $(() => {
   const token = sessionStorage.getItem("token");
@@ -31,6 +31,23 @@ $(() => {
         reloadFolder();
       }
     })
+  })
+
+  $('#import').on('click', () => {
+    if ($('#fileToImport')[0].files[0]) {
+      const folder = JSON.parse(sessionStorage.getItem('directories')).at(-1);
+      const file = $('#fileToImport')[0].files[0];
+      let reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = () => {
+        const res = importDocument(token, file.name, folder, reader.result);
+        res.then((response) => {
+          if (response.ok) {
+            reloadFolder();
+          }
+        })
+      }
+    }
   })
 
   $('#backFolder').on('click', () => {

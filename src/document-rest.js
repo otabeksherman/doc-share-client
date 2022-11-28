@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { serverAddress } from "./constants"
 
 const createDocument = (token, name, dir) => {
@@ -10,6 +9,18 @@ const createDocument = (token, name, dir) => {
       });
 
       return fetchPromise;
+}
+
+const importDocument = (token, name, dir, body) => {
+  const fetchPromise = fetch(serverAddress + "/api/v1/doc/import?title=" + name + "&token=" + token + "&folderId=" + dir, {
+    body: body,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+
+  return fetchPromise;
 }
 
 const getDocuments = (token, currentDirectory) => {
@@ -46,4 +57,4 @@ const createFolder = (token, name, id) => {
   return fetchPromise;
 }
 
-export{getDocuments, createDocument, getDocument, createFolder}
+export{getDocuments, createDocument, getDocument, createFolder, importDocument}
