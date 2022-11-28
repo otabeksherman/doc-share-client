@@ -2,7 +2,7 @@ import $ from 'jquery'
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {getDocuments, createDocument, createFolder} from './document-rest';
-
+import {logout} from './rest'
 
 $(() => {
   const token = sessionStorage.getItem("token");
@@ -19,7 +19,15 @@ $(() => {
       }
     })
   });
+  $('#logout').on('click', () => {
+    const res = logout(token);
 
+    /*res.then((response) => {
+      if (response.ok) {
+          reloadFolder();
+      }
+    })*/
+  });
   $('#createFolder').on('click', () => {
     const folder = JSON.parse(sessionStorage.getItem('directories')).at(-1);
     const res = createFolder(token, $('#documentName').val(), folder);
