@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import { addUpdate, , stompClient, removeUpdate} from './sockets';
+import { addUpdate, stompClient, removeUpdate} from './sockets';
 import { body } from './doc'
 import { serverAddress } from './constants';
 const urlParams = new URLSearchParams(window.location.search);
