@@ -12,14 +12,16 @@
     <div>
       <div>
         <span>
-          <a href="" class="btn btn-primary">log-out</a>
+          <a href="index.html" id="logout" class="btn btn-primary">log-out</a>
           <h1>Home page</h1>
         </span>
         <span>
           <input type="text" id="documentName">
-          <button id="createDocument" class="btn btn-primary">create document</button>
-          <button id="createFolder" class="btn btn-primary">create Folder</button>
+          <button id="createDocument" class="btn btn-secondary">create document</button>
+          <button id="createFolder" class="btn btn-secondary">create Folder</button>
         </span>
+        <input id="fileToImport" type="file" accept=".txt"/>
+        <button id="import" class="btn btn-secondary">Import document</button>
         <button id="backFolder" class="btn btn-primary">back</button>
         <ul id="documentList" class="list-group mt-5 text-white"></ul>
       </div>
