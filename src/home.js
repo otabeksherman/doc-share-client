@@ -19,6 +19,7 @@ $(() => {
       }
     })
   });
+  
   $('#logout').on('click', () => {
     const res = logout(token);
   });

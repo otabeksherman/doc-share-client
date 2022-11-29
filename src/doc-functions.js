@@ -1,8 +1,9 @@
 import $ from 'jquery'
-import { addUpdate, removeUpdate} from './sockets';
+import { addUpdate, , stompClient, removeUpdate} from './sockets';
 import { body } from './doc'
+import { serverAddress } from './constants';
 const urlParams = new URLSearchParams(window.location.search);
-  
+
 const documentId = urlParams.get('id');
 const token = sessionStorage.getItem("token");
 
@@ -50,7 +51,12 @@ $(() => {
     input.on("paste", (pasteEvent) => {
         let start = input.prop("selectionStart");
         addUpdate(token, "APPEND_RANGE", pasteEvent.originalEvent.clipboardData.getData('text'), start,documentId);
-    })
+    });
+    /*$('#back-from-doc').on('click', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const documentId = urlParams.get('id');
+        stompClient.send("/app/deleteViewer/",[],JSON.stringify({docId:documentId,token:token}))
+      });*/
 })
 
 const update = (updateData) => {
@@ -83,5 +89,17 @@ const update = (updateData) => {
         textArea[0].setSelectionRange(start, start);
     }
 }
+const addViewer = (listViewer) => {
+    let viewers = $('#viewers');
+    const urlParams = new URLSearchParams(window.location.search);
+    const documentId = urlParams.get('id');
+    let text = "";
+    const docViewers = listViewer[documentId];
+    for(let x in docViewers){
+        text+=docViewers[x];
+        text+="\n";        
+    }
+    viewers.val(text);
 
-export { update }
+}
+export { update , addViewer}
