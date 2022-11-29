@@ -1,8 +1,9 @@
 import $ from 'jquery'
-import { addUpdate } from './sockets';
+import { addUpdate , stompClient} from './sockets';
 import { body } from './doc'
+import { serverAddress } from './constants';
 const urlParams = new URLSearchParams(window.location.search);
-  
+
 const documentId = urlParams.get('id');
 const token = sessionStorage.getItem("token");
 
@@ -22,7 +23,12 @@ $(() => {
         let end = input.prop("selectionEnd");
         console.log(input.val());
         addUpdate(token,input.val(), end-1,documentId);
-    })
+    });
+    /*$('#back-from-doc').on('click', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const documentId = urlParams.get('id');
+        stompClient.send("/app/deleteViewer/",[],JSON.stringify({docId:documentId,token:token}))
+      });*/
 })
 
 const update = (updateData) => {
@@ -40,5 +46,17 @@ const update = (updateData) => {
         }
     }
 }
+const addViewer = (listViewer) => {
+    let viewers = $('#viewers');
+    const urlParams = new URLSearchParams(window.location.search);
+    const documentId = urlParams.get('id');
+    let text = "";
+    const docViewers = listViewer[documentId];
+    for(let x in docViewers){
+        text+=docViewers[x];
+        text+="\n";        
+    }
+    viewers.val(text);
 
-export { update }
+}
+export { update , addViewer}

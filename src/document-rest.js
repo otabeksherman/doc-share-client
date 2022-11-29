@@ -1,5 +1,5 @@
+import $, { get } from 'jquery'
 import { serverAddress } from "./constants"
-
 const createDocument = (token, name, dir) => {
     const fetchPromise = fetch(serverAddress + "/api/v1/doc/create?title=" + name + "&token=" + token + "&folderId=" + dir, {
         method: 'POST',
@@ -48,6 +48,16 @@ const getDocument = (id, token) => {
 
   return fetchPromise;
 }
+const getDocumentViewers = (id) => {
+  const fetchPromise = fetch(serverAddress + "/viewers/", {
+    method:get,
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+
+  return fetchPromise;
+}
 
 const createFolder = (token, name, id) => {
   const fetchPromise = fetch(serverAddress + "/api/v1/folder/" + id + "/new?token=" + token + "&name=" + name, {
@@ -57,4 +67,4 @@ const createFolder = (token, name, id) => {
   return fetchPromise;
 }
 
-export{getDocuments, createDocument, getDocument, createFolder, importDocument}
+export{getDocuments, createDocument, getDocument, createFolder, importDocument,getDocumentViewers}
