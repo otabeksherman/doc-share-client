@@ -7,6 +7,7 @@ import $ from 'jquery'
 import { serverAddress } from "./constants"
 import { update ,addViewer} from './doc-functions';
 let stompClient;
+let stompClientViewers;
 const socketFactory = () => {
     return new SockJS(serverAddress + '/ws');
 }
@@ -65,4 +66,4 @@ const sendUpate = (user, type, content, position,docId) => {
     }))
 }
 
-export { openConnection, addUpdate,openConnectionViewers }
+export { openConnection, addUpdate,openConnectionViewers,stompClient }

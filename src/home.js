@@ -20,6 +20,7 @@ $(() => {
     })
   });
 
+
   $('#createFolder').on('click', () => {
     const folder = JSON.parse(sessionStorage.getItem('directories')).at(-1);
     const res = createFolder(token, $('#documentName').val(), folder);
