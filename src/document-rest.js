@@ -83,7 +83,6 @@ const moveFolder = (token, folderId, destinationId) => {
   return fetchPromise;
 }
 
-export{getDocuments, createDocument, getDocument, createFolder, importDocument,getDocumentViewers, moveDocument, moveFolder}
 const shareDocument = (shareRequest) => {
   const fetchPromise = fetch(serverAddress + "/api/v1/doc/share", {
     method : 'PATCH',
@@ -95,4 +94,4 @@ const shareDocument = (shareRequest) => {
   return fetchPromise;
 }
 
-export{getDocuments, createDocument, getDocument, createFolder, shareDocument, importDocument, getDocumentViewers}
+export{getDocuments, createDocument, getDocument, createFolder, shareDocument, importDocument, getDocumentViewers, moveDocument, moveFolder}
