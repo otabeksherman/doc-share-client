@@ -27,7 +27,22 @@ const login = (user) => {
         window.location.replace("./home.html");
       });
     }
+    else{
+      //$("#emailInput")[0].setCustomValidity("The email or password is incorrect");
+
+    }
   });
+}
+const logout = (token) => {
+  const fetchPromise = fetch(serverAddress + "/user/logout?token=" + token , {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    console.log("in logout function");
+
+    return fetchPromise;
 }
 
 const activate = (activation) => {
@@ -42,4 +57,15 @@ const activate = (activation) => {
   });
 }
 
-export{createUser, login, activate}
+const getUsersWithAccess = (token, docId) => {
+  let requestParams = `?token=${token}&docId=${docId}`;
+  const fetchPromise =  fetch(serverAddress + "/api/v1/doc/allowedUsers" + requestParams, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  return fetchPromise;
+}
+
+export{createUser, login, logout, activate, getUsersWithAccess}

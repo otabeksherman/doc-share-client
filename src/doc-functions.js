@@ -1,38 +1,105 @@
 import $ from 'jquery'
-import { addUpdate } from './sockets';
+import { addUpdate, stompClient, removeUpdate} from './sockets';
+import { body } from './doc'
+import { serverAddress } from './constants';
+const urlParams = new URLSearchParams(window.location.search);
 
+const documentId = urlParams.get('id');
+const token = sessionStorage.getItem("token");
 
 $(() => {
 
     var input = $('#main-doc');
 
     input.on('keydown', (event) => {
-        var key = event.keyCode || event.charCode;
-        if (key == 8 || key == 46) {
-            console.log("deleting: " + input.val().substring(input.prop("selectionStart"),
-                input.prop("selectionEnd")));
+        const keyEvent = event.originalEvent;
+        var key = keyEvent.code;
+        if (key == 'Delete' || key == 'Backspace') {
+            let position = input.prop("selectionStart");
+            let deleteVal = input.val().substring(input.prop("selectionStart"), input.prop("selectionEnd"));
+            if (!deleteVal) {
+                if (key == 'Delete') {
+                    deleteVal = input.val().substring(input.prop("selectionStart"), input.prop("selectionEnd")+1);
+                    
+                } else {
+                    if (position == 0) return;
+                    deleteVal = input.val().substring(input.prop("selectionStart")-1, input.prop("selectionEnd"));
+                    position = position - 1;
+                }
+                addUpdate(token, "DELETE", deleteVal, position,documentId);
+                return;
+            }
+            console.log("deleting: " + deleteVal);
+            addUpdate(token, "DELETE_RANGE", deleteVal, position,documentId);   
         }
-
     });
     input.on("input", (event) => {
+        if (!event.originalEvent.inputType == 'insertText') {
+            return;
+        }
+
+        console.log("type: " + event.originalEvent.inputType);
+        console.log("data: " + event.originalEvent.data);
+        console.log(event.originalEvent);
+        
         let end = input.prop("selectionEnd");
-        addUpdate($('#userInput').val(), event.originalEvent.data, end-1)
+        let data = event.originalEvent.data;
+        if (data == null) return;
+        addUpdate(token, "APPEND", data, end-1,documentId);
     })
+    
+    input.on("paste", (pasteEvent) => {
+        let start = input.prop("selectionStart");
+        addUpdate(token, "APPEND_RANGE", pasteEvent.originalEvent.clipboardData.getData('text'), start,documentId);
+    });
+    /*$('#back-from-doc').on('click', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const documentId = urlParams.get('id');
+        stompClient.send("/app/deleteViewer/",[],JSON.stringify({docId:documentId,token:token}))
+      });*/
 })
 
 const update = (updateData) => {
     let textArea = $('#main-doc');
-    let user = $('#userInput').val();
     let start = textArea.prop("selectionStart");
-    if (user != updateData.user) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const documentId = urlParams.get('id');
+    if (sessionStorage.getItem('token') != updateData.user && updateData.documentId == documentId) {
         let text = textArea.val();
-        text = text.substring(0, updateData.position) + updateData.content + text.substring(updateData.position, text.length);
+        switch (updateData.type) {
+            case 'DELETE':
+                text = text.substring(0, updateData.position) + text.substring(updateData.position + 1, text.length);
+                break;
+            case 'APPEND':
+            case 'APPEND_RANGE':
+                text = text.substring(0, updateData.position) + updateData.content + text.substring(updateData.position, text.length);
+                break;
+            case 'DELETE_RANGE':
+                text = text.substring(0, updateData.position) + text.substring(updateData.position + updateData.content.length, text.length);
+                break;
+        }
         textArea.val(text);
         if (updateData.position < start) {
-            start++;
-            textArea[0].setSelectionRange(start, start);
+            if (updateData.type == 'APPEND' || updateData.type == 'APPEND_RANGE') {
+                start+=updateData.content.length;        
+            } else {
+                start-=Math.max(updateData.content.length, 0);    
+            }  
         }
+        textArea[0].setSelectionRange(start, start);
     }
 }
+const addViewer = (listViewer) => {
+    let viewers = $('#viewers');
+    const urlParams = new URLSearchParams(window.location.search);
+    const documentId = urlParams.get('id');
+    let text = "";
+    const docViewers = listViewer[documentId];
+    for(let x in docViewers){
+        text+=docViewers[x];
+        text+="\n";        
+    }
+    viewers.val(text);
 
-export { update }
+}
+export { update , addViewer}

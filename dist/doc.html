@@ -2,24 +2,59 @@
 <html>
 
 <head>
-  <meta charset="utf-8" />
-  <title>Doc page</title>
+    <meta charset="utf-8"/>
+    <title>Doc page</title>
 </head>
 
 <body>
-  <div class="container">
-    <br>
+
+<div class="container">
     <div class="row">
-      <div class="col-4">
-        <span>
-          <a href="home.html" class="btn btn-primary">back</a>
-          <h1 id="doc-name">Document page</h1>
-        </span>
-        <div>
-            <textarea class="form-control" id="main-doc" rows="20"></textarea>
+        <div class="col-md-1">
+            <a href="home.html" id="back-from-doc" class="btn btn-primary">Back to Homepage</a>
         </div>
-      </div>
+        <div class="col-md-6 offset-1">
+            <h1 id="doc-name">Document Title</h1>
+        </div>
+        <div class="col-md-2">
+            <div class="share-button btn btn-success">Share document</div>
+        </div>
+        <div class="col-md-2">
+            <div class="change-log btn btn-info">Change Log</div>
+        </div>
     </div>
-  </div>
+    <hr>
+    <div class="row justify-content-end">
+        <div class="col-md-8 text-center">
+            <textarea class="form-control form-control-lg mb-3" id="main-doc" rows="20"></textarea>
+        </div>
+        <div class="col-md-2">
+            <p>Active users:</p>
+            <ul class="list-group" id="active-users"></ul>
+        </div>
+    </div>
+</div>
+
+<div class="share-popup">
+    <div class="row">
+        <h3>Share document</h3>
+        <button id="close">&times;</button>
+        <label for="emailInput" class="form-label">Enter user email to share with</label>
+        <input type="email" class="form-control" id="emailInput" placeholder="email"
+               required pattern="^(?=.{1,64}@)[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$">
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <button id="submitViewer" class="btn btn-primary">Add as Viewer</button>
+        </div>
+        <div class="col-6">
+            <button id="submitEditor" class="btn btn-primary">Add as Editor</button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+    </div>
+    <ul class="list-group"  id="list-users"></ul>
+</div>
 </body>
 </html>
