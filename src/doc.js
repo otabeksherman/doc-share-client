@@ -22,6 +22,14 @@ const body = $(() => {
       })
     }
   })
+
+  $('#export_btn').on('click', () => {
+    var link = document.createElement('a');
+    link.download = $('#doc-name')[0].textContent + '.txt';
+    var blob = new Blob([$('#main-doc').val()], {type: 'text/plain'});
+    link.href = window.URL.createObjectURL(blob);
+    link.click();
+  })
 })
 openConnectionViewers();
 openConnection();
