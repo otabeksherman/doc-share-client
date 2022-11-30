@@ -67,4 +67,20 @@ const createFolder = (token, name, id) => {
   return fetchPromise;
 }
 
-export{getDocuments, createDocument, getDocument, createFolder, importDocument,getDocumentViewers}
+const moveDocument = (token, documentId, folderId) => {
+  const fetchPromise = fetch(serverAddress + "/api/v1/doc/move/" + documentId + "?token=" + token + "&folderId=" + folderId, {
+    method : 'PATCH'
+  });
+
+  return fetchPromise;
+}
+
+const moveFolder = (token, folderId, destinationId) => {
+  const fetchPromise = fetch(serverAddress + "/api/v1/folder/move/" + folderId + "?token=" + token + "&destinationId=" + destinationId, {
+    method : 'PATCH'
+  });
+
+  return fetchPromise;
+}
+
+export{getDocuments, createDocument, getDocument, createFolder, importDocument,getDocumentViewers, moveDocument, moveFolder}
