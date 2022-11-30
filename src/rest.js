@@ -57,4 +57,15 @@ const activate = (activation) => {
   });
 }
 
-export{createUser, login, activate,logout}
+const getUsersWithAccess = (token, docId) => {
+  let requestParams = `?token=${token}&docId=${docId}`;
+  const fetchPromise =  fetch(serverAddress + "/api/v1/doc/allowedUsers" + requestParams, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  return fetchPromise;
+}
+
+export{createUser, login, logout, activate, getUsersWithAccess}
