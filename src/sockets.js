@@ -51,12 +51,12 @@ const openConnectionViewers = () => {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, onConnectedViewers);
 }
-const addUpdate = (user, content, position,docId) => {
-    sendUpate(user, "APPEND", content, position, docId)
+const addUpdate = (user, type, content, position, docId) => {
+    sendUpate(user, type, content, position, docId)
 }
 
 const sendUpate = (user, type, content, position,docId) => {
-    console.log("this is user:: "+user);
+    console.log("this is user: "+user + " type: " + type + " content: " + content + "position: " + position);
     stompClient.send("/app/update/", [], JSON.stringify({
         user: user,
         content: content,
