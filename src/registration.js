@@ -37,9 +37,6 @@ $(() => {
     if (response.ok) {
       showActivationEmailSent();
     }
-    else if(response.status==400){
-      $("#emailInput")[0].setCustomValidity("A user with this email already exists");
-    }
   });
 })
 

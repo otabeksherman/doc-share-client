@@ -12,35 +12,28 @@
     <div>
       <div>
         <span>
-          <a href="index.html" id="logout" class="btn btn-primary">log-out</a>
+          <a href="" class="btn btn-primary">log-out</a>
           <h1>Home page</h1>
         </span>
         <span>
           <input type="text" id="documentName">
-          <button id="createDocument" class="btn btn-secondary">create document</button>
-          <button id="createFolder" class="btn btn-secondary">create Folder</button>
+          <button id="createDocument" class="btn btn-primary">create document</button>
+          <button id="createFolder" class="btn btn-primary">create Folder</button>
         </span>
-        <input id="fileToImport" type="file" accept=".txt"/>
-        <button id="import" class="btn btn-secondary">Import document</button>
         <button id="backFolder" class="btn btn-primary">back</button>
         <ul id="documentList" class="list-group mt-5 text-white"></ul>
       </div>
     </div>
   </div>
   <template id="list-item">
-    <div class="list-group-item d-flex flex-row justify-content-between align-content-center">
-      <button id="main-btn" style="background-color:#FFFFFF; border-width: 0ch; border-right-width: 0.5ch;" class="d-flex flex-row flex-fill align-content-center align-self-stretch">
-        <img id="type" src="https://thumbs.dreamstime.com/b/document-file-icon-simple-vector-illustration-black-white-background-121287116.jpg" width="50" height="62"/>
+    <button class="list-group-item d-flex justify-content-between align-content-center">
+      <div class="d-flex flex-row">
+        <img src="https://thumbs.dreamstime.com/b/document-file-icon-simple-vector-illustration-black-white-background-121287116.jpg" width="50" height="62"/>
         <div class="ml-2">
           <h6 class="mb-0">Ogivet Maither</h6>
         </div>
-      </button>
-      <button id="move_to_folder" style="background-color:#FFFFFF; border-width: 0ch;" width="62" height="62">
-          <img src="images/move_to_folder.png" width="62" height="62"/></button>
-      <div id="dialog" title="Basic dialog" style="display:none; flex-direction:column">
-        <select id="select"></select>
-        <button id="confirmMove">submit</button>
       </div>
+    </button>
   </template>
 </body>
 </html>
