@@ -1,5 +1,4 @@
 import { serverAddress } from "./constants"
-import $ from "jquery";
 
 const createUser = (user) => {
     return fetch(serverAddress + "/user", {
@@ -32,7 +31,11 @@ const login = (user) => {
 
     }
   });
+
+  return fetchPromise;
+
 }
+
 const logout = (token) => {
   const fetchPromise = fetch(serverAddress + "/user/logout?token=" + token , {
       method: 'PATCH',
@@ -58,7 +61,7 @@ const activate = (activation) => {
 }
 
 const getUsersWithAccess = (token, docId) => {
-  let requestParams = `?token=${token}&docId=${docId}`;
+  const requestParams = `?token=${token}&docId=${docId}`;
   const fetchPromise =  fetch(serverAddress + "/api/v1/doc/allowedUsers" + requestParams, {
     method: 'GET',
     headers: {
