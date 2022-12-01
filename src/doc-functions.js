@@ -1,4 +1,4 @@
-import $ from 'jquery'
+import $, { map } from 'jquery'
 import { addUpdate, stompClient, removeUpdate} from './sockets';
 import { body } from './doc'
 import { serverAddress } from './constants';
@@ -89,17 +89,45 @@ const update = (updateData) => {
         textArea[0].setSelectionRange(start, start);
     }
 }
-const addViewer = (listViewer) => {
-    let viewers = $('#viewers');
+const addViewers = (mapViewers) => {
     const urlParams = new URLSearchParams(window.location.search);
     const documentId = urlParams.get('id');
-    let text = "";
-    const docViewers = listViewer[documentId];
-    for(let x in docViewers){
-        text+=docViewers[x];
-        text+="\n";        
+    let usersResponse = mapViewers[documentId];
+    
+    let owners = [];
+    let viewers = [];
+    let editors = [];
+    for (let [key, value] of Object.entries(usersResponse)) {
+        switch(value) {
+            case 'OWNER':
+                owners.push(key);
+            case 'VIEWER':
+                viewers.push(key);
+            case 'EDITOR':
+                editors.push(key);
+        }
     }
-    viewers.val(text);
 
+    $("#active-users").empty();
+
+    appendItemsToListWithRoles(owners, "owner", "active-users");
+    appendItemsToListWithRoles(editors, "editor", "active-users");
+
+    let filtered = viewers.filter(viewer => !editors.includes(viewer));
+    appendItemsToListWithRoles(filtered, "viewer", "active-users");
 }
-export { update , addViewer}
+
+function appendItemsToListWithRoles(elements, role, listId) {
+    let ul = document.getElementById(listId);
+    elements.forEach(element => {
+        let li = document.createElement("li");
+        li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+        li.appendChild(document.createTextNode(element));
+        let span = document.createElement("span");
+        span.classList.add("badge", role);
+        span.appendChild(document.createTextNode(role));
+        li.appendChild(span);
+        ul.appendChild(li);
+    })
+}
+export { update , addViewers, appendItemsToListWithRoles}

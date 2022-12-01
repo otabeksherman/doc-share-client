@@ -1,8 +1,9 @@
 import $ from 'jquery'
-import {openConnection, openConnectionViewers } from './sockets';
+import {openConnection, disconnect } from './sockets';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {getDocument , getDocumentViewers, shareDocument} from './document-rest';
+import {getDocument , shareDocument} from './document-rest';
+import { appendItemsToListWithRoles } from './doc-functions';
 import '../styles/doc.css'
 import {getUsersWithAccess} from "./rest";
 
@@ -78,6 +79,12 @@ const body = $(() => {
   })
 })
 
+$('#back-from-doc').on('click', () => {
+    let token = sessionStorage.getItem("token");
+    let documentId = sessionStorage.getItem('documentId');
+    disconnect(token, documentId);
+})
+
 function listUsers() {
     console.log("Listing users...")
     let token = sessionStorage.getItem("token");
@@ -95,32 +102,15 @@ function listUsers() {
 
                 $("#list-users").empty();
 
-                appendItemsToListWithRoles(owners, "owner");
-                appendItemsToListWithRoles(editors, "editor");
+                appendItemsToListWithRoles(owners, "owner", "list-users");
+                appendItemsToListWithRoles(editors, "editor", "list-users");
 
                 let filtered = viewers.filter(viewer => !editors.includes(viewer));
-                appendItemsToListWithRoles(filtered, "viewer");
+                appendItemsToListWithRoles(filtered, "viewer", "list-users");
             })
         }
     })
 }
-
-function appendItemsToListWithRoles(elements, role) {
-    let ul = document.getElementById("list-users");
-    elements.forEach(element => {
-        let li = document.createElement("li");
-        li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
-        li.appendChild(document.createTextNode(element));
-        let span = document.createElement("span");
-        span.classList.add("badge", role);
-        span.appendChild(document.createTextNode(role));
-        li.appendChild(span);
-        ul.appendChild(li);
-    })
-}
-
-openConnectionViewers();
-
 
 openConnection();
 
