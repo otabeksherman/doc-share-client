@@ -1,5 +1,4 @@
 import { serverAddress } from "./constants"
-import $ from "jquery";
 
 const createUser = (user) => {
     return fetch(serverAddress + "/user", {
@@ -20,19 +19,9 @@ const login = (user) => {
     }
   });
 
-  fetchPromise.then((response) => {
-    if (response.ok) {
-      response.text().then((text) => {
-        sessionStorage.setItem("token", text);
-        window.location.replace("./home.html");
-      });
-    }
-    else{
-      //$("#emailInput")[0].setCustomValidity("The email or password is incorrect");
-
-    }
-  });
+  return fetchPromise;
 }
+
 const logout = (token) => {
   const fetchPromise = fetch(serverAddress + "/user/logout?token=" + token , {
       method: 'PATCH',
@@ -58,7 +47,7 @@ const activate = (activation) => {
 }
 
 const getUsersWithAccess = (token, docId) => {
-  let requestParams = `?token=${token}&docId=${docId}`;
+  const requestParams = `?token=${token}&docId=${docId}`;
   const fetchPromise =  fetch(serverAddress + "/api/v1/doc/allowedUsers" + requestParams, {
     method: 'GET',
     headers: {

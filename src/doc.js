@@ -8,21 +8,20 @@ import '../styles/doc.css'
 import {getUsersWithAccess} from "./rest";
 
 
-const body = $(() => {
-  const token = sessionStorage.getItem("token");
-  const urlParams = new URLSearchParams(window.location.search);
-  const documentId = urlParams.get('id');
-  const res = getDocument(documentId, token);
-  let doc;
+$(() => {
+    const token = sessionStorage.getItem("token");
+    const urlParams = new URLSearchParams(window.location.search);
+    const documentId = urlParams.get('id');
+    const res = getDocument(documentId, token);
+
     res.then((response) => {
         if (response.ok) {
             sessionStorage.setItem('documentId', documentId);
             response.text().then((text) => {
-                doc = JSON.parse(text);
-          $('#doc-name')[0].textContent = doc['title'];
-          $('#main-doc').val(doc['body']);
-          return doc['body'];
-            })
+                const doc = JSON.parse(text);
+                $('#doc-name')[0].textContent = doc['title'];
+                $('#main-doc').val(doc['body']);
+            });
         }
     });
 
@@ -46,7 +45,7 @@ const body = $(() => {
             documentId: sessionStorage.getItem('documentId'),
             role: "VIEWER"
         }
-        let response = await shareDocument(shareRequest);
+        const response = await shareDocument(shareRequest);
         if (response.ok) {
             console.log('Shared successfully')
         }
@@ -64,7 +63,7 @@ const body = $(() => {
             documentId: sessionStorage.getItem('documentId'),
             role: "EDITOR"
         }
-        let response = await shareDocument(shareRequest);
+        const response = await shareDocument(shareRequest);
         if (response.ok) {
             console.log('Shared successfully');
         }
@@ -80,32 +79,32 @@ const body = $(() => {
 })
 
 $('#back-from-doc').on('click', () => {
-    let token = sessionStorage.getItem("token");
-    let documentId = sessionStorage.getItem('documentId');
+    const token = sessionStorage.getItem("token");
+    const documentId = sessionStorage.getItem('documentId');
     disconnect(token, documentId);
 })
 
 function listUsers() {
     console.log("Listing users...")
-    let token = sessionStorage.getItem("token");
-    let documentId = sessionStorage.getItem('documentId');
-    let res = getUsersWithAccess(token, documentId)
+    const token = sessionStorage.getItem("token");
+    const documentId = sessionStorage.getItem('documentId');
+    const res = getUsersWithAccess(token, documentId)
 
     res.then((response) => {
         if (response.ok) {
             response.text().then((text) => {
-                let usersResponse = JSON.parse(text);
+                const usersResponse = JSON.parse(text);
 
-                let owners = usersResponse['OWNER'].map(element => element['email']);
-                let viewers = usersResponse['VIEWER'].map(element => element['email']);
-                let editors = usersResponse['EDITOR'].map(element => element['email']);
+                const owners = usersResponse['OWNER'].map(element => element['email']);
+                const viewers = usersResponse['VIEWER'].map(element => element['email']);
+                const editors = usersResponse['EDITOR'].map(element => element['email']);
 
                 $("#list-users").empty();
 
                 appendItemsToListWithRoles(owners, "owner", "list-users");
                 appendItemsToListWithRoles(editors, "editor", "list-users");
 
-                let filtered = viewers.filter(viewer => !editors.includes(viewer));
+                const filtered = viewers.filter(viewer => !editors.includes(viewer));
                 appendItemsToListWithRoles(filtered, "viewer", "list-users");
             })
         }
@@ -113,5 +112,3 @@ function listUsers() {
 }
 
 openConnection();
-
-export {body}

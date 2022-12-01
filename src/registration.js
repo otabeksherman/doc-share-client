@@ -33,12 +33,12 @@ $(() => {
       name: $('#userInput').val(),
       password: $('#passwordInput').val()
     }
-    let response = await createUser(user);
+    const response = await createUser(user);
     if (response.ok) {
       showActivationEmailSent();
     }
     else if(response.status==400){
-      $("#emailInput")[0].setCustomValidity("A user with this email already exists");
+      window.alert("A user with this email already exists");
     }
   });
 })

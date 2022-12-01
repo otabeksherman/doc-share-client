@@ -23,8 +23,9 @@ $(() => {
   });
   
   $('#logout').on('click', () => {
-    const res = logout(token);
+    logout(token);
   });
+
   $('#createFolder').on('click', () => {
     const folder = JSON.parse(sessionStorage.getItem('directories')).at(-1);
     const res = createFolder(token, $('#documentName').val(), folder);
@@ -51,7 +52,7 @@ $(() => {
         })
       }
     }
-  })
+  });
 
   $('#backFolder').on('click', () => {
     const folder = JSON.parse(sessionStorage.getItem('directories'));
@@ -59,15 +60,13 @@ $(() => {
     sessionStorage.setItem('directories', JSON.stringify(folder));
     
     reloadFolder();
-  })
+  });
 })
 
 const reloadFolder = () => {
   const token = sessionStorage.getItem("token");
   const folder = JSON.parse(sessionStorage.getItem('directories'));
   const res = getDocuments(token, folder.at(-1));
-
-  $('#dialog').hide();
 
   res.then((response) => {
     if (response.ok) {
@@ -118,29 +117,7 @@ const createLiDocument = (element) => {
       window.location.assign("./doc.html?id=" + element['id']);
   })
 
-  const selectDiv = template.querySelector('#dialog');
-  const select = template.querySelector('#select');
-  const moveButton = template.querySelector("#move_to_folder");
-  moveButton.addEventListener("click", () => {
-    if (selectDiv.style.display == 'flex') {
-      selectDiv.style.display = 'none';
-    } else {
-      selectDiv.style.display = 'flex';
-      let options = Array.from(currentSubFolders).map(([name, id]) => '<option value=' + id + '>' + name + '</option>').join('\n');
-      select.innerHTML = '<option value=-1>parent</option>\n' + options;
-    }
-  })
-
-  const confirm = template.querySelector("#confirmMove");
-  confirm.addEventListener("click", () => {
-    const moveFetch = moveDocument(sessionStorage.getItem("token"), element['id'], select.value);
-
-    moveFetch.then((response) => {
-      if (response.ok) {
-        reloadFolder();
-      }
-    })
-  })
+  addMoveFunctions(template, element['id'], false);
   return template;
 }
 
@@ -162,6 +139,11 @@ const createLiFolder = (element) => {
     reloadFolder();
   })
 
+  addMoveFunctions(template, element['id'], true)
+  return template;
+}
+
+const addMoveFunctions = (template, elementId ,isFolder = false) => {
   const selectDiv = template.querySelector('#dialog');
   const select = template.querySelector('#select');
   const moveButton = template.querySelector("#move_to_folder");
@@ -172,24 +154,27 @@ const createLiFolder = (element) => {
       selectDiv.style.display = 'flex';
       let options = ""
       currentSubFolders.forEach((value, key) => {
-        if (value != element['id']) {
+        if (!isFolder || value != elementId) {
           options += '<option value=' + value + '>' + key + '</option>\n'
         }
-      })
+      });
       select.innerHTML = '<option value=-1>parent</option>\n' + options;
     }
-  })
+  });
 
   const confirm = template.querySelector("#confirmMove");
   confirm.addEventListener("click", () => {
-    const moveFetch = moveFolder(sessionStorage.getItem("token"), element['id'], select.value);
+    let moveFetch;
+    if (isFolder) {
+      moveFetch = moveFolder(sessionStorage.getItem("token"), elementId, select.value);
+    } else {
+      moveFetch = moveDocument(sessionStorage.getItem("token"), elementId, select.value);
+    }
 
     moveFetch.then((response) => {
       if (response.ok) {
         reloadFolder();
       }
     })
-  })
-
-  return template;
+  });
 }
