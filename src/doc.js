@@ -8,20 +8,26 @@ import '../styles/doc.css'
 import {getUsersWithAccess} from "./rest";
 
 
-$(() => {
-    const token = sessionStorage.getItem("token");
-    const urlParams = new URLSearchParams(window.location.search);
-    const documentId = urlParams.get('id');
-    const res = getDocument(documentId, token);
-
-    res.then((response) => {
-        if (response.ok) {
-            sessionStorage.setItem('documentId', documentId);
-            response.text().then((text) => {
-                const doc = JSON.parse(text);
-                $('#doc-name')[0].textContent = doc['title'];
-                $('#main-doc').val(doc['body']);
-            });
+const body = $(() => {
+  const token = sessionStorage.getItem("token");
+  const urlParams = new URLSearchParams(window.location.search);
+  const documentId = urlParams.get('id');
+  const res = getDocument(documentId, token);
+  let doc;
+  res.then((response) => {
+    if (response.ok) {
+      response.text().then((text) => {
+          doc = JSON.parse(text).document;
+          const role = JSON.parse(text).role
+          $('#doc-name')[0].textContent = doc['title'];
+          $('#main-doc').val(doc['body']);
+          if(role!="EDITOR"){
+            $('#main-doc').prop('readonly',true);
+          } else{
+            $('#main-doc').prop('readonly',false);
+          }
+          return doc['body'];
+            })
         }
     });
 

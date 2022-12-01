@@ -19,7 +19,21 @@ const login = (user) => {
     }
   });
 
+  fetchPromise.then((response) => {
+    if (response.ok) {
+      response.text().then((text) => {
+        sessionStorage.setItem("token", text);
+        window.location.replace("./home.html");
+      });
+    }
+    else{
+      $("#emailInput")[0].setCustomValidity("The email or password is incorrect");
+
+    }
+  });
+
   return fetchPromise;
+
 }
 
 const logout = (token) => {
