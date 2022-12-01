@@ -48,7 +48,7 @@ const getDocument = (id, token) => {
 
   return fetchPromise;
 }
-const getDocumentViewers = (id) => {
+const getDocumentViewers = () => {
   const fetchPromise = fetch(serverAddress + "/viewers/", {
     method:get,
     headers: {
