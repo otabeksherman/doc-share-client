@@ -1,14 +1,14 @@
-import $, { get } from 'jquery'
 import { serverAddress } from "./constants"
-const createDocument = (token, name, dir) => {
-    const fetchPromise = fetch(serverAddress + "/api/v1/doc/create?title=" + name + "&token=" + token + "&folderId=" + dir, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
 
-      return fetchPromise;
+const createDocument = (token, name, dir) => {
+  const fetchPromise = fetch(serverAddress + "/api/v1/doc/create?title=" + name + "&token=" + token + "&folderId=" + dir, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+
+  return fetchPromise;
 }
 
 const importDocument = (token, name, dir, body) => {
@@ -28,18 +28,7 @@ const getDocuments = (token, currentDirectory) => {
   if (currentDirectory != null) {
     dir = "/" + currentDirectory;
   }
-    const fetchPromise = fetch(serverAddress + "/api/v1/folder" + dir + "?token=" + token, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-
-    return fetchPromise;
-}
-
-const getDocument = (id, token) => {
-  const fetchPromise = fetch(serverAddress + "/api/v1/doc/" + id + "?token=" + token, {
+  const fetchPromise = fetch(serverAddress + "/api/v1/folder" + dir + "?token=" + token, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -48,9 +37,10 @@ const getDocument = (id, token) => {
 
   return fetchPromise;
 }
-const getDocumentViewers = () => {
-  const fetchPromise = fetch(serverAddress + "/viewers/", {
-    method:get,
+
+const getDocument = (id, token) => {
+  const fetchPromise = fetch(serverAddress + "/api/v1/doc/" + id + "?token=" + token, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     }
@@ -94,4 +84,4 @@ const shareDocument = (shareRequest) => {
   return fetchPromise;
 }
 
-export{getDocuments, createDocument, getDocument, createFolder, shareDocument, importDocument, getDocumentViewers, moveDocument, moveFolder}
+export{getDocuments, createDocument, getDocument, createFolder, shareDocument, importDocument, moveDocument, moveFolder}

@@ -5,18 +5,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/activation.css'
 
 $(async () => {
-    let searchParams = new URLSearchParams(window.location.search)
+    const searchParams = new URLSearchParams(window.location.search)
     if (searchParams.has('email')) {
 
-        let email = searchParams.get('email')
-        let token;
+        const email = searchParams.get('email')
         if (searchParams.has('token')) {
-            token = searchParams.get('token');
+            const token = searchParams.get('token');
             const activation = {
                 email: email,
                 token: token
             }
-            let response = await activate(activation);
+            const response = await activate(activation);
             if (response.status == 200) {
                 showSuccess();
             } else if (response.status == 401){

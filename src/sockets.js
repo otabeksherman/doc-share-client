@@ -1,31 +1,30 @@
 import * as SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import $ from 'jquery'
 import { serverAddress } from "./constants"
 import { update ,addViewers} from './doc-functions';
 
 
 let stompClient;
+const urlParams = new URLSearchParams(window.location.search);
+const documentId = urlParams.get('id');
+const token = sessionStorage.getItem("token");
 
 const socketFactory = () => {
     return new SockJS(serverAddress + '/ws');
 }
 
 const onMessageReceived = (payload) => {
-    var message = JSON.parse(payload.body);
+    const message = JSON.parse(payload.body);
     console.log(message);
     update(message);
 }
 const onViewerReceived = (payload) => {
     console.log("on viewer received: ");
-    var viewer = JSON.parse(payload.body);
+    const viewer = JSON.parse(payload.body);
     console.log(viewer);
     addViewers(viewer);
     
 }
-const urlParams = new URLSearchParams(window.location.search);
-const documentId = urlParams.get('id');
-const token = sessionStorage.getItem("token");
 
 const onConnected = () => {
     console.log("subscribing to messages");
@@ -35,7 +34,7 @@ const onConnected = () => {
     console.log("arrive to on connected viewers");
     stompClient.send("/app/join/", [],
         JSON.stringify({ user: token , docId:documentId})
-    )
+    );
 }
 
 const openConnection = () => {
@@ -45,7 +44,7 @@ const openConnection = () => {
 }
 
 const addUpdate = (user, type, content, position, docId) => {
-    sendUpate(user, type, content, position, docId)
+    sendUpate(user, type, content, position, docId);
 }
 
 const sendUpate = (user, type, content, position,docId) => {
@@ -56,15 +55,12 @@ const sendUpate = (user, type, content, position,docId) => {
         documentId: docId,
         type: type,
         position: position
-    }))
+    }));
 }
 
 const disconnect = (user, documentId) => {
-    stompClient.send("/app/deleteViewer/", {token:user},
-    documentId
-        //JSON.stringify({docId:documentId, token: user})
-    )
+    stompClient.send("/app/deleteViewer/", {token:user}, documentId);
     stompClient.disconnect();
 }
 
-export { openConnection, addUpdate,stompClient, disconnect }
+export { openConnection, addUpdate, disconnect }
