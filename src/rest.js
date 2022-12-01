@@ -28,7 +28,7 @@ const login = (user) => {
       });
     }
     else{
-      //$("#emailInput")[0].setCustomValidity("The email or password is incorrect");
+      $("#emailInput")[0].setCustomValidity("The email or password is incorrect");
 
     }
   });

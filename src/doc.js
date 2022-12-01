@@ -15,9 +15,15 @@ const body = $(() => {
   res.then((response) => {
     if (response.ok) {
       response.text().then((text) => {
-          doc = JSON.parse(text);
+          doc = JSON.parse(text).document;
+          const role = JSON.parse(text).role
           $('#doc-name')[0].textContent = doc['title'];
           $('#main-doc').val(doc['body']);
+          if(role!="EDITOR"){
+            $('#main-doc').prop('readonly',true);
+          } else{
+            $('#main-doc').prop('readonly',false);
+          }
           return doc['body'];
       })
     }
