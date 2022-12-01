@@ -1,14 +1,16 @@
 import $ from 'jquery'
-import { openConnection } from './sockets';
+import {openConnection, disconnect } from './sockets';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {getDocument} from './document-rest';
+import {getDocument , shareDocument} from './document-rest';
+import { appendItemsToListWithRoles } from './doc-functions';
+import '../styles/doc.css'
+import {getUsersWithAccess} from "./rest";
 
 
 const body = $(() => {
   const token = sessionStorage.getItem("token");
   const urlParams = new URLSearchParams(window.location.search);
-  
   const documentId = urlParams.get('id');
   const res = getDocument(documentId, token);
   let doc;
@@ -25,10 +27,95 @@ const body = $(() => {
             $('#main-doc').prop('readonly',false);
           }
           return doc['body'];
-      })
-    }
+            })
+        }
+    });
+
+    $(".share-button").on('click', function () {
+        $(".share-popup").show();
+        listUsers()
+    });
+
+    $("#close").on("click", function () {
+        $(".share-popup").hide();
+    });
+
+    $('#submitViewer').on('click', async (e) => {
+        e.preventDefault();
+        if (!e.checkValidity) {
+            e.stopPropagation();
+        }
+        const shareRequest = {
+            token: sessionStorage.getItem('token'),
+            email: $('#emailInput').val(),
+            documentId: sessionStorage.getItem('documentId'),
+            role: "VIEWER"
+        }
+        let response = await shareDocument(shareRequest);
+        if (response.ok) {
+            console.log('Shared successfully')
+        }
+    });
+
+    $('#submitEditor').on('click', async (e) => {
+        e.preventDefault();
+        if (!e.checkValidity) {
+            e.stopPropagation();
+        }
+
+        const shareRequest = {
+            token: sessionStorage.getItem('token'),
+            email: $('#emailInput').val(),
+            documentId: sessionStorage.getItem('documentId'),
+            role: "EDITOR"
+        }
+        let response = await shareDocument(shareRequest);
+        if (response.ok) {
+            console.log('Shared successfully');
+        }
+    });
+
+  $('#export_btn').on('click', () => {
+    var link = document.createElement('a');
+    link.download = $('#doc-name')[0].textContent + '.txt';
+    var blob = new Blob([$('#main-doc').val()], {type: 'text/plain'});
+    link.href = window.URL.createObjectURL(blob);
+    link.click();
   })
 })
+
+$('#back-from-doc').on('click', () => {
+    let token = sessionStorage.getItem("token");
+    let documentId = sessionStorage.getItem('documentId');
+    disconnect(token, documentId);
+})
+
+function listUsers() {
+    console.log("Listing users...")
+    let token = sessionStorage.getItem("token");
+    let documentId = sessionStorage.getItem('documentId');
+    let res = getUsersWithAccess(token, documentId)
+
+    res.then((response) => {
+        if (response.ok) {
+            response.text().then((text) => {
+                let usersResponse = JSON.parse(text);
+
+                let owners = usersResponse['OWNER'].map(element => element['email']);
+                let viewers = usersResponse['VIEWER'].map(element => element['email']);
+                let editors = usersResponse['EDITOR'].map(element => element['email']);
+
+                $("#list-users").empty();
+
+                appendItemsToListWithRoles(owners, "owner", "list-users");
+                appendItemsToListWithRoles(editors, "editor", "list-users");
+
+                let filtered = viewers.filter(viewer => !editors.includes(viewer));
+                appendItemsToListWithRoles(filtered, "viewer", "list-users");
+            })
+        }
+    })
+}
 
 openConnection();
 

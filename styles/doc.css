@@ -1,0 +1,145 @@
+.container{
+    /*height: 200px;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    padding: 1rem 0rem;
+}
+
+#main-doc {
+    /*box-sizing: border-box;*/
+}
+
+textarea {
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+    resize: none;
+}
+
+/* Popup container */
+.share-button {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* The actual popup (appears on top) */
+.share-button .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+
+/* Popup arrow */
+.share-button .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.share-button .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+
+/**,*/
+/**:before,*/
+/**:after{*/
+/*    padding: 0;*/
+/*    margin: 0;*/
+/*    box-sizing: border-box;*/
+/*}*/
+/*body{*/
+/*    background-color: #0855ae;*/
+/*}*/
+/*.popup{*/
+/*    background-color: #ffffff;*/
+/*    width: 420px;*/
+/*    padding: 30px 40px;*/
+/*    position: absolute;*/
+/*    transform: translate(-50%,-50%);*/
+/*    left: 50%;*/
+/*    top: 50%;*/
+/*    border-radius: 8px;*/
+/*    display: none;*/
+/*    font-family: "Poppins",sans-serif;*/
+/*    text-align: center;*/
+/*}*/
+/*body {*/
+/*    padding: 10px 20px;*/
+/*}*/
+.share-popup{
+    border: 16px solid #f3f3f3;
+    background-color: #ffffff;
+    width: 420px;
+    padding: 30px 40px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+    border-radius: 8px;
+    display: none;
+    font-family: "Poppins",sans-serif;
+    text-align: center;
+}
+
+.share-popup button#close{
+    display: block;
+    margin:  0 0 20px auto;
+    background-color: transparent;
+    font-size: 30px;
+    color: #ffffff;
+    background: #03549a;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    bottom: 100px;
+    right: -55px;
+}
+
+span.badge.owner {
+    background-color: purple;
+}
+
+.badge.editor {
+    background-color: blue;
+}
+
+.badge.viewer {
+    background-color: green;
+}
