@@ -143,3 +143,8 @@ span.badge.owner {
 .badge.viewer {
     background-color: green;
 }
+
+textarea#logs {
+    width: 1000px;
+    height: 150px;
+}
