@@ -63,7 +63,7 @@ const update = (updateData) => {
     let start = textArea.prop("selectionStart");
     const urlParams = new URLSearchParams(window.location.search);
     const documentId = urlParams.get('id');
-    if (sessionStorage.getItem('token') != updateData.user && updateData.documentId == documentId) {
+    if (sessionStorage.getItem('email') != updateData.email && updateData.documentId == documentId) {
         let text = textArea.val();
         //change text based on update gotten
         switch (updateData.type) {

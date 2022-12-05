@@ -102,9 +102,9 @@ $(() => {
               textArea.setAttribute('id','logs')
               // textArea.appendChild(document.createTextNode(usersResponse));
               usersResponse.forEach(element => {
-                  console.log(element);
                   textArea.appendChild(document.createTextNode(`[${element['lastModified']}]: 
-                  Text: ${element['body']} 
+                  Update Type: ${element['updateType']}
+                  Text: ${element['body']}
                   Position Range: ${element['startPosition']}-${element['endPosition']} 
                   Made by: ${element['email']} \n`));
               })

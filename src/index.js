@@ -17,9 +17,14 @@ $(() => {
     const fetchPromise = login(user);
 
     fetchPromise.then((response) => {
+      console.log(response)
       if (response.ok) {
         response.text().then((text) => {
-          sessionStorage.setItem("token", text);
+          let userResponse = JSON.parse(text);
+          console.log(userResponse["token"])
+          console.log(userResponse["email"])
+          sessionStorage.setItem("token", userResponse["token"]);
+          sessionStorage.setItem("email", userResponse["email"])
           window.location.replace("./home.html");
         });
       }
