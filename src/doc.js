@@ -2,7 +2,7 @@ import $ from 'jquery'
 import {openConnection, disconnect } from './sockets';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {getDocument , shareDocument} from './document-rest';
+import {getDocument , shareDocument, getLogs} from './document-rest';
 import { appendItemsToListWithRoles } from './doc-functions';
 import '../styles/doc.css'
 import {getUsersWithAccess} from "./rest";
@@ -80,8 +80,40 @@ $(() => {
     var blob = new Blob([$('#main-doc').val()], {type: 'text/plain'});
     link.href = window.URL.createObjectURL(blob);
     link.click();
+  });
+
+  $('#logs-button').on('click', async () => {
+      $("#changes").empty();
+      let token = sessionStorage.getItem('token');
+      let documentId = sessionStorage.getItem('documentId');
+      let response = await getLogs(token, documentId);
+      if (response.ok) {
+          response.text().then((text) => {
+              let usersResponse = JSON.parse(text);
+              let logWindow = document.getElementById("changes");
+              let display = getComputedStyle(logWindow).display;
+              if (display == "none") {
+                  logWindow.style.display = "block";
+              } else {
+                  logWindow.style.display = "none";
+              }
+              let textArea = document.createElement("textarea");
+              textArea.readOnly = true;
+              textArea.setAttribute('id','logs')
+              // textArea.appendChild(document.createTextNode(usersResponse));
+              usersResponse.forEach(element => {
+                  console.log(element);
+                  textArea.appendChild(document.createTextNode(`[${element['lastModified']}]: 
+                  Text: ${element['body']} 
+                  Position Range: ${element['startPosition']}-${element['endPosition']} 
+                  Made by: ${element['email']} \n`));
+              })
+              logWindow.appendChild(textArea);
+          })
+      }
   })
 })
+
 
 $('#back-from-doc').on('click', () => {
     const token = sessionStorage.getItem("token");

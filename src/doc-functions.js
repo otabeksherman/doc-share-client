@@ -80,7 +80,7 @@ const update = (updateData) => {
         //move cursor forward if needed
         if (updateData.position < start) {
             if (updateData.type == 'APPEND' || updateData.type == 'APPEND_RANGE') {
-                start+=updateData.content.length;        
+                start += updateData.content.length;
             } else {
                 start-=Math.max(updateData.content.length, 0);    
             }  
@@ -92,7 +92,7 @@ const addViewers = (mapViewers) => {
     const urlParams = new URLSearchParams(window.location.search);
     const documentId = urlParams.get('id');
     const usersResponse = mapViewers[documentId];
-    
+
     let owners = [];
     let viewers = [];
     let editors = [];

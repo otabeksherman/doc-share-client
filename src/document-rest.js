@@ -84,4 +84,15 @@ const shareDocument = (shareRequest) => {
   return fetchPromise;
 }
 
-export{getDocuments, createDocument, getDocument, createFolder, shareDocument, importDocument, moveDocument, moveFolder}
+const getLogs = (token, documentId) => {
+  const fetchPromise = fetch(serverAddress + "/api/v1/doc/logs" + "?token=" + token + "&docId=" + documentId, {
+    method : 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return fetchPromise;
+}
+
+export{getDocuments, createDocument, getDocument, createFolder, shareDocument, importDocument,
+   moveDocument, moveFolder, getLogs}
