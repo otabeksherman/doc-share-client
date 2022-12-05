@@ -12,6 +12,7 @@ $(() => {
     const token = sessionStorage.getItem("token");
     const urlParams = new URLSearchParams(window.location.search);
     const documentId = urlParams.get('id');
+    sessionStorage.setItem('documentId', documentId)
     const res = getDocument(documentId, token);
     res.then((response) => {
         if (response.ok) {
