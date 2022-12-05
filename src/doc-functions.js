@@ -13,6 +13,7 @@ $(() => {
     input.on('keydown', (event) => {
         const keyEvent = event.originalEvent;
         const key = keyEvent.code;
+        console.log(key);
         if (key == 'Delete' || key == 'Backspace') {
             let position = input.prop("selectionStart");
             let deleteVal = input.val().substring(input.prop("selectionStart"), input.prop("selectionEnd"));
@@ -30,6 +31,9 @@ $(() => {
             }
             console.log("deleting: " + deleteVal);
             addUpdate(token, "DELETE_RANGE", deleteVal, position,documentId);   
+        } else if (key == 'Enter') {
+            const end = input.prop("selectionEnd");
+            addUpdate(token, "APPEND", "\n", end,documentId);
         }
     });
 
